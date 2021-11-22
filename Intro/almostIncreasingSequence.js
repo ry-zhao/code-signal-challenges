@@ -1,46 +1,26 @@
-function almostIncreasingSequence(sequence) {
-  let exceptionUsed = false;
-  let temp;
-  for (let i = 0; i < sequence.length; i++) {
-    if (i === 0) {
-      temp = sequence[0];
-    } else if (sequence[i] > temp) {
-      temp = sequence[i];
-    } else if (exceptionUsed === true) {
-      return false;
-    } else {
-      exceptionUsed = true;
-      if (i === 1) {
-        for (let j = 1; j < sequence.length; j++) {
-          if (j === sequence.length - 1) {
-            return true;
-          }
-          if (!(sequence[j] < sequence[j + 1])) {
-            return false;
-          }
-        }
-      } else if (sequence[i - 1] < sequence[i + 1]) {
-        for (let j = i + 2; j < sequence.length; j++) {
-          if (!(sequence[j - 1] < sequence[j])) {
-            break;
-          }
-          if (j === sequence.length - 1) {
-            return true;
-          }
-        }
-      } else if (sequence[i - 2] < sequence[i]) {
-        for (let j = i + 1; j < sequence.length; j++) {
-          if (!(sequence[j - 1] < sequence[j])) {
-            return false;
-          }
-          if (j === sequence.length - 1) {
-            return true;
-          }
-        }
+//  create let variable that stores how many exceptions have been used
+//  traverse sequence, starting from 1
+//      check if item is less than or equal to last
+//          if so, increment exceptions
+//          check if exceptions is more than 1
+//              if so, return false
+//          check if item at i+1 is less than or equal to i-1 AND if item at i is less than or equal to item   //          at i +2
+//              if so, return false
+//  return true
+
+function solution(sequence) {
+  const { length } = sequence;
+  let exceptions = 0;
+  for (let i = 1; i < length; i++) {
+    if (sequence[i] <= sequence[i - 1]) {
+      exceptions++;
+      if (exceptions > 1) {
+        return false;
+      }
+      if (sequence[i + 1] <= sequence[i - 1] && sequence[i] <= sequence[i - 2]) {
+        return false;
       }
     }
-    if (i === sequence.length - 1) {
-      return true;
-    }
   }
+  return true;
 }
